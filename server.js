@@ -1,5 +1,7 @@
 const express = require("express");
 const axios = require("axios");
+const https = require("https");
+const fs = require("fs");
 const mysql = require('mysql2/promise');
 
 const app = express();
@@ -7,6 +9,11 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.static("public"));
+
+const options = {
+    key: fs.readFileSync("./cert/192.168.1.103-key.pem"),
+    cert: fs.readFileSync("./cert/192.168.1.103.pem")
+};
 
 app.get("/ask", async (req, res) => {
     const prompt = req.query.prompt;
@@ -45,7 +52,6 @@ app.get("/cuaca", async (req, res) => {
         res.json({
             message: response.data["data"][0]["cuaca"][1][0]
         });
-
     } catch (err) {
         console.error(err.message);
     }
@@ -107,6 +113,9 @@ app.get("/time", (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+// app.listen(PORT, () => {
+//     console.log(`Server running on http://localhost:${PORT}`);
+// });
+https.createServer(options, app).listen(3000, "0.0.0.0", () => {
+    console.log("HTTPS server running on https://192.168.1.103:3000");
 });

@@ -24,15 +24,6 @@ function mulai(){
     // cek_database();
 }
 
-// async function cek_database(){
-//     const response =
-//         await fetch(
-//             "/cek_db"
-//         );
-
-//     const data = await response.json();
-// }
-
 async function cuacaAPI(){
     const response =
         await fetch(
@@ -41,5 +32,14 @@ async function cuacaAPI(){
 
     const data = await response.json();
     console.log(data);
-    document.getElementsByTagName("h1")[0].innerHTML += "<img width=48 src='"+data.message.image+"'> ("+data.message.datetime.slice(0,10)+")";
+    // document.getElementsByTagName("h1")[0].innerHTML += "<img width=48 src='"+data.message.image+"'> ("+data.message.datetime.slice(0,10)+")";
 }
+
+// async function cek_database(){
+//     const response =
+//         await fetch(
+//             "/cek_db"
+//         );
+
+//     const data = await response.json();
+// }
