@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Absensi Upacara</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -26,22 +27,13 @@
     <br>
     <button id="start-button">Start</button>
     <button id="stop-button">Stop</button>
-    <!-- <button onclick="loadMessage()">
-        Get Message
-    </button> -->
-    <!-- <p id="output">
-        Waiting...
-    </p> -->
-    <!-- <br> -->
-    <!-- <textarea id="prompt"></textarea> -->
-    <!-- <br> -->
-    <!-- <button onclick="askAI()">
-    Ask AI
-    </button> -->
     <hr>
     <div id="answer"></div>
-    <script src="script.js"></script>
+    <script src="client.js"></script>
 </body>
+<footer>
+    Sumber kode: <a href="https://chatgpt.com/share/6ab33a12-fe24-83ec-b4f7-a887e0bb94ec">ChatGPT</a>
+</footer>
 <script type="module">
     import QrScanner from "../qr-scanner.min.js";
 
@@ -58,8 +50,10 @@
     const fileQrResult = document.getElementById('file-qr-result');
 
     function setResult(label, result) {
-        console.log(result.data);
-        label.textContent = result.data;
+        // label.textContent = "http://"+location.href+result.data;
+        label.innerHTML = "<a onclick=cekHasil("+result.data+") style='font-size:128px;' href='"+"#"+ "'>Ahay</a>"
+        scanner.stop();
+
         camQrResultTimestamp.textContent = new Date().toString();
         label.style.color = 'teal';
         clearTimeout(label.highlightTimeout);

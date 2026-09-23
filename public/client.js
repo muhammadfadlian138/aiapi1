@@ -4,34 +4,25 @@ async function loadMessage(){
     document.getElementById("output").innerHTML = data.message;
 }
 
-async function askAI() {
-    const prompt = document.getElementById("prompt").value;
-
-    const response =
-        await fetch(
-            "/ask?prompt=" +
-            encodeURIComponent(prompt)
+async function cekHasil(r){
+    if (confirm("Mengabsen "+r+"?")){
+        const response = await fetch(
+            "/hasil?qr=" + r
         );
-
-    const data = await response.json();
-
-    document.getElementById("answer").innerHTML = data.message;
+        const data = await response.json();
+        if (data.length>0){
+            document.getElementById("answer").innerHTML = "Berhasil mengabsen "+JSON.stringify(data.nama_lengkap);
+        } else {
+            document.getElementById("answer").innerHTML = "<font color='red'>Gagal mengabsen.</font>";
+        }
+    } else {
+        location.reload()
+    }
 }
 
 function mulai(){
-    console.log("yak!")
     cuacaAPI();
-    // cek_database();
 }
-
-// async function cek_database(){
-//     const response =
-//         await fetch(
-//             "/cek_db"
-//         );
-
-//     const data = await response.json();
-// }
 
 async function cuacaAPI(){
     const response =

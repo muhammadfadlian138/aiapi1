@@ -1,10 +1,27 @@
 const express = require("express");
 const axios = require("axios");
 const mysql = require('mysql2/promise');
+const fs = require('fs');
+const https = require('https');
+const dotenv = require("dotenv").config();
+
+const db = mysql.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    waitForConnections: true,
+    connectionLimit: 10
+});
 
 const app = express();
 
 const PORT = 3000;
+
+const options = {
+    key: fs.readFileSync("./cert/192.168.110.226-key.pem"),
+    cert: fs.readFileSync("./cert/192.168.110.226.pem")
+};
 
 app.use(express.static("public"));
 
@@ -51,62 +68,28 @@ app.get("/cuaca", async (req, res) => {
     }
 });
 
-async function main() {
-    // const connection = await mysql.createConnection({
-    //     host: 'localhost',
-    //     user: 'root',
-    //     password: 'yourpassword',
-    //     database: 'school'
-    // });
-
-    // console.log('Connected to MySQL');
-
-    // const [rows] = await connection.execute(
-    //     'SELECT * FROM students'
-    // );
-
-    // console.table(rows);
-
-    // await connection.end();
-}
-
-// main().catch(console.error);
-
-app.get("/cek_db", async (req,res) => {
+app.get("/hasil", async(req,res) =>{
     try {
-        const connection = await mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: 'qwerty',
-            database: 'absensi_upacara'
-        });
-
-        console.log('Connected to MySQL');
-
-        const [rows] = await connection.execute(
-            'SELECT * FROM presensi'
+        const [barisbaris] = await db.execute(
+            "SELECT id,nama_lengkap FROM daftar_murid WHERE nis=?;",
+            [req.query.qr]
         );
 
-        console.table(rows);
-
-        await connection.end();
+        if (barisbaris.length>0){
+            const [murid] = await db.execute(
+                "INSERT INTO presensi VALUES(NULL,?,NOW());",
+                [req.query.qr]
+            );
+            console.log("Database berhasil ditambahkan:", barisbaris.length, "baris, yaitu ", barisbaris[0].nama_lengkap);
+        } else {
+            console.log("Gagal mengabsen");
+        }
+        res.json(barisbaris);
     } catch (err){
         console.error(err.message);
     }
 });
 
-app.get("/hello", (req, res) => {
-    res.json({
-        message: "Hello World!3"
-    });
-});
-
-app.get("/time", (req, res) => {
-    res.json({
-        time: new Date()
-    });
-});
-
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+app.listen(3000, "0.0.0.0", () => {
+    console.log("Server running on http://0.0.0.0:3000");
 });
