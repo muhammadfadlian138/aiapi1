@@ -12,10 +12,10 @@
         <video id="qr-video"></video>
     </div>
     <div id="semuaInfo">
-        <b id="info-1">Device has camera: </b>
-        <span id="cam-has-camera" id="info-2"></span>
+        <b>Device has camera: </b>
+        <span id="cam-has-camera"></span>
         <br>
-        <div id="info-3">
+        <div>
             <b>Preferred camera:</b>
             <select id="cam-list">
                 <option value="environment" selected>Environment Facing (default)</option>
@@ -23,7 +23,7 @@
             </select>
         </div>
         <br>
-        <b id="info-4">Detected QR code: </b>
+        <b>Detected QR code: </b>
     </div>
 
     <div id="answer"></div>
@@ -61,7 +61,10 @@
         // label.textContent = "http://"+location.href+result.data;
         document.body.style.backgroundColor = "#fffc23";
         document.body.removeChild(document.getElementById("semuaInfo"));
-        label.innerHTML = "<a onclick=cekHasil("+result.data+") style='font-size:128px;' href='"+"#"+ "'>Ahay</a>";
+        //ini berhasil, kok
+        // alert(result.data);
+        
+        label.innerHTML = "<a onclick='cekHasil("+result.data+")' style='font-size:128px;' href='"+"#"+ "'>"+'Ahay'+"</a>";
 
         scanner.stop();
 
@@ -101,8 +104,8 @@
     // for debugging
     window.scanner = scanner;
 
-    document.getElementById('stop-button').addEventListener('click', () => {
-        scanner.stop();
-    });
+    // document.getElementById('stop-button').addEventListener('click', () => {
+    //     scanner.stop();
+    // });
 </script>
 </html>

@@ -70,6 +70,7 @@ app.get("/cuaca", async (req, res) => {
 
 app.get("/hasil", async(req,res) =>{
     try {
+        console.log(123);
         const [barisbaris] = await db.execute(
             "SELECT id,nama_lengkap FROM daftar_murid WHERE nis=?;",
             [req.query.qr]

@@ -5,21 +5,25 @@ async function loadMessage(){
 }
 
 async function cekHasil(r){
+    // alert(r);
     if (confirm("Mengabsen "+r+"?")){
         const response = await fetch(
             "/hasil?qr=" + r
         );
         const data = await response.json();
         if (data.length==1){
-            document.getElementById("answer").innerHTML = "Berhasil mengabsen "+(data.nama_lengkap);
+            // alert(data);
+            document.getElementById("answer").innerHTML = "Berhasil mengabsen "+(data[0].nama_lengkap);
+            alert("Berhasil mengabsen " +data[0].nama_lengkap);
         } else {
             document.getElementById("answer").innerHTML = "<font color='red'>Gagal mengabsen.</font>";
             alert("Gagal Mengabsen");
-            location.reload();
         }
+        // location.reload();
     } else {
-        location.reload()
+        // location.reload();
     }
+    location.reload();
 }
 
 function mulai(){
