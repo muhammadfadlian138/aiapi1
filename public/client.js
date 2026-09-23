@@ -10,10 +10,12 @@ async function cekHasil(r){
             "/hasil?qr=" + r
         );
         const data = await response.json();
-        if (data.length>0){
-            document.getElementById("answer").innerHTML = "Berhasil mengabsen "+JSON.stringify(data.nama_lengkap);
+        if (data.length==1){
+            document.getElementById("answer").innerHTML = "Berhasil mengabsen "+(data.nama_lengkap);
         } else {
             document.getElementById("answer").innerHTML = "<font color='red'>Gagal mengabsen.</font>";
+            alert("Gagal Mengabsen");
+            location.reload();
         }
     } else {
         location.reload()

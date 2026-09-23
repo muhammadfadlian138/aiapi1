@@ -6,33 +6,42 @@
     <title>Absensi Upacara</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body onload="mulai()">
+<body onload="cuacaAPI()">
     <h1>Absensi Upacara</h1>    
     <div id="video-container">
         <video id="qr-video"></video>
     </div>
-    <b>Device has camera: </b>
-    <span id="cam-has-camera"></span>
-    <br>
-    <div>
-        <b>Preferred camera:</b>
-        <select id="cam-list">
-            <option value="environment" selected>Environment Facing (default)</option>
-            <option value="user">User Facing</option>
-        </select>
+    <div id="semuaInfo">
+        <b id="info-1">Device has camera: </b>
+        <span id="cam-has-camera" id="info-2"></span>
+        <br>
+        <div id="info-3">
+            <b>Preferred camera:</b>
+            <select id="cam-list">
+                <option value="environment" selected>Environment Facing (default)</option>
+                <option value="user">User Facing</option>
+            </select>
+        </div>
+        <br>
+        <b id="info-4">Detected QR code: </b>
     </div>
-    <br>
-    <b>Detected QR code: </b>
-    <span id="cam-qr-result">None</span>
-    <br>
-    <button id="start-button">Start</button>
-    <button id="stop-button">Stop</button>
-    <hr>
+
     <div id="answer"></div>
+    <span id="cam-qr-result">None</span>
+    <!-- <br>
+    <button id="start-button">Start</button>
+    <button id="stop-button">Stop</button> -->
+    <hr>
     <script src="client.js"></script>
 </body>
 <footer>
-    Sumber kode: <a href="https://chatgpt.com/share/6ab33a12-fe24-83ec-b4f7-a887e0bb94ec">ChatGPT</a>
+    <ul>
+        <li>Dibantu AI: <a href="https://chatgpt.com/share/6ab33a12-fe24-83ec-b4f7-a887e0bb94ec">ChatGPT 1</a></li>
+        <li>Dibantu AI: <a href="https://chatgpt.com/c/6a8b6ffc-4f28-83ec-9793-7477e5909422">ChatGPT 2</a></li>
+        <li>Branch terkini: <a href="https://github.com/muhammadfadlian138/aiapi1/tree/09-23">09-23</a></li>
+        <li>Camera browser oleh: <a href="https://github.com/nimiq/qr-scanner">nimiq</a></li>
+    </ul>
+    
 </footer>
 <script type="module">
     import QrScanner from "../qr-scanner.min.js";
@@ -51,7 +60,10 @@
 
     function setResult(label, result) {
         // label.textContent = "http://"+location.href+result.data;
-        label.innerHTML = "<a onclick=cekHasil("+result.data+") style='font-size:128px;' href='"+"#"+ "'>Ahay</a>"
+        document.body.style.backgroundColor = "#fffc23";
+        document.body.removeChild(document.getElementById("semuaInfo"));
+        label.innerHTML = "<a onclick=cekHasil("+result.data+") style='font-size:128px;' href='"+"#"+ "'>Ahay</a>";
+
         scanner.stop();
 
         camQrResultTimestamp.textContent = new Date().toString();
